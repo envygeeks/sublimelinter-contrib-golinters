@@ -2,7 +2,7 @@ from SublimeLinter.lint import Linter
 
 
 class GoLint(Linter):
-    multiline = True
+    multiline = False
     regex = r'(?:[^:]+):(?P<line>\d+):(?P<col>\d+)?:(?:(?P<warning>warning)|(?P<error>error)):\s*(?P<message>.*)'
     cmd = 'gometalinter'
 
