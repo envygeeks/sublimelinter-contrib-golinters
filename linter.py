@@ -1,29 +1,11 @@
-from SublimeLinter.lint import Linter
+from SublimeLinter.lint import util, Linter, WARNING
 
 
 class GoLint(Linter):
-    multiline = False
-    regex = r'(?:[^:]+):(?P<line>\d+):(?P<col>\d+)?:(?:(?P<warning>warning)|(?P<error>error)):\s*(?P<message>.*)'
-    cmd = 'gometalinter'
-
-    args = (
-      "--fast",
-      "--concurrency=12",
-      "--disable-all",
-      "--vendor",
-      "--tests",
-
-      "--enable=gosec",
-      "--enable=golint",
-      "--enable=errcheck",
-      "--enable=ineffassign",
-      "--enable=vetshadow",
-      "--enable=goconst",
-      "--enable=gocyclo",
-      "--enable=deadcode",
-      "--enable=safesql"
-    )
-
+    default_type = WARNING
+    error_stream = util.STREAM_STDOUT
+    regex = r'(?:[^:]+):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)'
+    cmd = 'gometalinter --fast --concurrency=12 ${file}'
     defaults = {
         'selector': 'source.go'
     }
