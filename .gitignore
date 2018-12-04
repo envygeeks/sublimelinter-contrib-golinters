@@ -60,4 +60,5 @@ site/
 # --
 /build
 /binaries
+/linter.pyc
 /priv

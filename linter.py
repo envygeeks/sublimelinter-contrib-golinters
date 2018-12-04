@@ -20,10 +20,12 @@ class GoLint(Linter):
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
       c = super().finalize_cmd(cmd, context, at_value, auto_append)
-      print("finalize_cmd original got {}", c)
+      print("golinters: finalize_cmd original got {}".format(c))
       f = self.filename
       if f is not "":
         i = c.index(f)
-        print("index at: {}", i)
+        print("golinters: index at {}".format(i))
         del c[i]
+
+      print("golinters: returning {}".format(c))
       return c
