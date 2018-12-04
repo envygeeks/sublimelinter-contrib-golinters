@@ -10,17 +10,31 @@ class GoLint(Linter):
     error_stream = util.STREAM_STDOUT
 
     def cmd(self):
-      print("golinters: {}".format(self.settings))
-
       f = self.filename
-      e = self.which("gometalinter")
-      t = ("/usr/bin/env", "GO111MODULE=auto", e)
-      if f != "": f = path.relpath(f, self.get_working_dir(self.settings))
-      if e is not None and f is not "": return t + ("${args}", f, "${file}")
+      e = self.base_cmd()
+      if e is not None:
+        if f is not "":
+          d = self.get_working_dir(self.settings)
+          i = "--include='^{}'".format(path.relpath(f, d))
+          e += (i,)
+        else:
+          f = "."
+
+        return e + ("${args}", f, "${file}",)
       return None
 
-    def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
+    def base_cmd(self):
+      e = self.which("gometalinter")
+      if e is not None: return (e, "--aggregate",)
+      return None
+
+    def finalize_cmd(self, cmd, ctx, av='', aa=False):
       f = self.filename
-      c = super().finalize_cmd(cmd, context, at_value, auto_append)
+      c = super().finalize_cmd(cmd, ctx, av, aa)
       if f is not "": c[:] = [a for a in c if a != f]
       return c
+
+    def get_working_dir(self, settings):
+      f = self.filename
+      if f is not "": f = path.dirname(self.filename)
+      return f
