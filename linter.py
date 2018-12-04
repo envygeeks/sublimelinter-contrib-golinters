@@ -14,22 +14,16 @@ class GoLint(Linter):
 
     def cmd(self):
       f = self.filename
-      e = self.base_cmd()
+      e = self.which("gometalinter")
       if e is not None:
         if f is not "":
-          d = self.get_working_dir(self.settings)
-          f = path.relpath(f, d)
+          f = path.relpath(f, self.get_working_dir(self.settings))
           i = "--include='^{}'".format(f)
           e += (i,)
         else:
           f = "."
 
         return e + ("${args}", f, "${file}",)
-      return None
-
-    def base_cmd(self):
-      e = self.which("gometalinter")
-      if e is not None: return ("/usr/bin/env", "GO111MODULE=auto", e, "--aggregate",)
       return None
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
