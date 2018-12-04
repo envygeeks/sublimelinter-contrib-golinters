@@ -14,8 +14,9 @@ class GoLint(Linter):
 
       f = self.filename
       e = self.which("gometalinter")
+      t = ("/usr/bin/env", "GO111MODULE=auto", e)
       if f != "": f = path.relpath(f, self.get_working_dir(self.settings))
-      if e is not None and f is not "": return (e, "${args}", f, "${file}")
+      if e is not None and f is not "": return t + ("${args}", f, "${file}")
       return None
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
