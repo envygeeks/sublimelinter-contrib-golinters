@@ -28,9 +28,9 @@ class GoLint(Linter):
       if e is not None: return (e, "--aggregate",)
       return None
 
-    def finalize_cmd(self, cmd, ctx, av='', aa=False):
+    def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
       f = self.filename
-      c = super().finalize_cmd(cmd, ctx, av, aa)
+      c = super().finalize_cmd(cmd, context, at_value, auto_append)
       if f is not "": c[:] = [a for a in c if a != f]
       return c
 
