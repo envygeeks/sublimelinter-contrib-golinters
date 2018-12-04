@@ -13,7 +13,7 @@ class GoLint(Linter):
 
     def cmd(self):
       """Gives back the command with a relative path."""
-      f = path.basename(self.filename())
+      f = path.basename(self.filename)
       e = self.which("gometalinter")
       if e is not None and f is not "":
         return (e,
