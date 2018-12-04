@@ -1,6 +1,9 @@
+# Copyright 2018 Jordon Bedwell. All rights reserved.
+# Use of this source code is governed by the MIT license
+# that can be found in the LICENSE file.
+
 from SublimeLinter.lint import util, Linter, WARNING
 from os import path
-
 
 class GoLint(Linter):
     tempfile_suffix = "-"
@@ -16,8 +19,8 @@ class GoLint(Linter):
         if f is not "":
           d = self.get_working_dir(self.settings)
           f = path.relpath(f, d)
-          # i = "--include='^{}'".format(f)
-          # e += (i,)
+          i = "--include='^{}'".format(f)
+          e += (i,)
         else:
           f = "."
 
