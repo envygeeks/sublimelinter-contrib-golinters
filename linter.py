@@ -28,9 +28,8 @@ class GoLint(Linter):
       return None
 
     def base_cmd(self):
-      d = path.dirname(__file__)
-      e = path.join(d, "go-mod-wrapper")
-      if e is not None: return (e, "--aggregate",)
+      e = self.which("gometalinter")
+      if e is not None: return ("/usr/bin/env", "GO111MODULE=auto", e, "--aggregate",)
       return None
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
