@@ -8,7 +8,7 @@ class GoLint(Linter):
     error_stream = util.STREAM_STDOUT
     regex = r'(?:[^:]+):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)'
     defaults = {
-        'selector': 'source.go'
+      'selector': 'source.go'
     }
 
     def cmd(self):
@@ -20,3 +20,9 @@ class GoLint(Linter):
           "--fast", "--concurrency=12",
           "${args}", f)
       return None
+
+    def get_cmd(self):
+      args = super().get_cmd()
+      if args[-1] is self.filename:
+        del args[-1]
+      return args
