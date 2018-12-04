@@ -28,7 +28,8 @@ class GoLint(Linter):
       return None
 
     def base_cmd(self):
-      e = self.which("gometalinter")
+      d = path.dirname(__file__)
+      e = path.join(d, "go-mod-wrapper")
       if e is not None: return (e, "--aggregate",)
       return None
 
