@@ -23,6 +23,6 @@ class GoLint(Linter):
 
     def get_cmd(self):
       args = super().get_cmd()
-      if args[-1] is self.filename:
+      if args[-1] == self.filename:
         del args[-1]
       return args
