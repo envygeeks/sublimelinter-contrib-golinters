@@ -10,8 +10,10 @@ class GoLint(Linter):
     error_stream = util.STREAM_STDOUT
 
     def cmd(self):
+      print("golinters: {}".format(self.settings))
+
       e = self.which("gometalinter")
-      f = path.basename(self.filename)
+      f = path.relpath(self.filename, self.get_working_dir(self.settings))
       return (e, "${args}", f, "${file}") if e != None and f != ""
       return None
 
