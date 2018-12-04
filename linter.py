@@ -10,14 +10,13 @@ class GoLint(Linter):
     error_stream = util.STREAM_STDOUT
 
     def cmd(self):
-      """Gives back the command with a relative path."""
-      f, e = path.basename(self.filename), self.which("gometalinter")
-      if e is not None and f is not "":
-        return (e,) + ("${args}", f, "${file}")
+      e = self.which("gometalinter")
+      f = path.basename(self.filename)
+      return (e, "${args}", f, "${file}") if e != None and f != ""
       return None
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
-      c, f = super().finalize_cmd(cmd, context, at_value, auto_append), self.filename
-      if f is not "":
-        del c[c.index(f)]
+      f = self.filename
+      c = super().finalize_cmd(cmd, context, at_value, auto_append)
+      c[:] = [a for a in c if a != f] if f != ""
       return c
