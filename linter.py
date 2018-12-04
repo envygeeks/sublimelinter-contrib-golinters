@@ -12,13 +12,14 @@ class GoLint(Linter):
     def cmd(self):
       print("golinters: {}".format(self.settings))
 
+      f = self.filename
       e = self.which("gometalinter")
-      f = path.relpath(self.filename, self.get_working_dir(self.settings))
-      return (e, "${args}", f, "${file}") if e != None and f != ""
+      if f != "": f = path.relpath(f, self.get_working_dir(self.settings))
+      if e is not None and f is not "": return (e, "${args}", f, "${file}")
       return None
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
       f = self.filename
       c = super().finalize_cmd(cmd, context, at_value, auto_append)
-      c[:] = [a for a in c if a != f] if f != ""
+      if f is not "": c[:] = [a for a in c if a != f]
       return c
