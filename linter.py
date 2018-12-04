@@ -15,7 +15,8 @@ class GoLint(Linter):
       if e is not None:
         if f is not "":
           d = self.get_working_dir(self.settings)
-          i = "--include='^{}'".format(path.relpath(f, d))
+          f = path.relpath(f, d)
+          i = "--include='^{}'".format(f)
           e += (i,)
         else:
           f = "."
