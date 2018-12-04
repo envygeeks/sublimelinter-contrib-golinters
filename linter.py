@@ -15,15 +15,17 @@ class GoLint(Linter):
     def cmd(self):
       f = self.filename
       e = self.which("gometalinter")
+      a = tuple()
+
       if e is not None:
         if f is not "":
           f = path.relpath(f, self.get_working_dir(self.settings))
           i = "--include='^{}'".format(f)
-          e += (i,)
+          a += (i,)
         else:
           f = "."
 
-        return e + ("${args}", f, "${file}",)
+        return a + ("${args}", f, "${file}",)
       return None
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
