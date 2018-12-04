@@ -8,14 +8,12 @@ class GoLint(Linter):
     defaults = { 'selector': 'source.go' }
     regex = r'(?:[^:]+):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)'
     error_stream = util.STREAM_STDOUT
-    default_args = ("--fast")
 
     def cmd(self):
       """Gives back the command with a relative path."""
       f, e = path.basename(self.filename), self.which("gometalinter")
       if e is not None and f is not "":
-        return (e,) + self.default_args + (
-          "${args}", f, "${file}")
+        return (e,) + ("${args}", f, "${file}")
       return None
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
