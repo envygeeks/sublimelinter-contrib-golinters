@@ -9,21 +9,15 @@ import re
 class GoLint(Linter):
     tempfile_suffix = "-"
     default_type = WARNING
-    defaults = { 'selector': 'source.go' }
     error_stream = util.STREAM_STDOUT
+    defaults = { 'selector': 'source.go' }
+    cmd = "gometalinter ${args} ."
 
     @property
     def regex(self):
       re.escape(self.relative_path) + \
       r":(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?" + \
       r":\s*(?P<message>.*)"
-
-    def cmd(self):
-      r = self.relative_path
-      e = self.which("gometalinter")
-      if e is not None and r is not "":
-        return (e, "${args}", ".")
-      return None
 
     @property
     def relative_path(self):
