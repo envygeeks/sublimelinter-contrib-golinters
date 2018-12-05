@@ -20,10 +20,10 @@ class GoLint(Linter):
       return f
 
     def cmd(self):
-      i, r = "", self.relative_path
-      if r is not "": i = "--include='\A{}'".format(r)
-      return ("gometalinter", i,
-        "${args}", ".")
+      i, r = tuple(), self.relative_path
+      if r is not "": i = ("--include", "^{}".format(r),)
+      return ("gometalinter",) + i +
+        ("${args}", ".",)
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
       return super().finalize_cmd(cmd, context,
