@@ -11,7 +11,7 @@ class GoLint(Linter):
     regex = r'^([a-zA-Z\-_]+\.go):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)'
     defaults = { "selector": "source.go" }
     cmd = "gometalinter ${args} ."
-    multiline = True
+    re_flags = re.MULTILINE
 
     @property
     def relative_path(self):
