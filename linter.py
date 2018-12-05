@@ -43,6 +43,7 @@ class GoLint(Linter):
         del c[1]
         if f is not ""
           return c+= (f,)
+      return c
 
 
     def get_working_dir(self, settings):
