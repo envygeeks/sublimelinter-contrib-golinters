@@ -15,9 +15,9 @@ class GoLint(Linter):
 
     @property
     def regex(self):
-      re.escape(self.relative_path) + \
-      r":(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?" + \
-      r":\s*(?P<message>.*)"
+      return re.escape(self.relative_path) + \
+        r":(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?" + \
+        r":\s*(?P<message>.*)"
 
     @property
     def relative_path(self):
