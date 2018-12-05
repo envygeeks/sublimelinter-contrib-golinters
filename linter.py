@@ -7,10 +7,9 @@ from SublimeLinter.lint import util, Linter, WARNING
 import re
 
 class GoLint(Linter):
-    tempfile_suffix = "-"
-    regex = r'^([a-zA-Z\-_]+\.go):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)'
     defaults = { "selector": "source.go" }
-    re_flags = re.MULTILINE
+    regex = r'(?:[^:]+):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)'
+    tempfile_suffix = "-"
 
     @property
     def relative_path(self):
@@ -22,7 +21,7 @@ class GoLint(Linter):
 
     def cmd(self):
       i, r = "", self.relative_path
-      if r is not "": i = "--include='^{}'".format(r)
+      if r is not "": i = "--include='\A{}'".format(r)
       return ("gometalinter", i,
         "${args}", ".")
 
