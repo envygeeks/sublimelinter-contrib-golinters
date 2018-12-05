@@ -13,28 +13,41 @@ class GoLint(Linter):
     error_stream = util.STREAM_STDOUT
 
     def cmd(self):
-      f = self.filename
+      r = self.relative_path
       e = self.which("gometalinter")
-      a = tuple()
-
-      if e is not None:
-        if f is not "":
-          f = path.relpath(f, self.get_working_dir(self.settings))
-          i = "--include='^{}'".format(f)
-          a += (i,)
-        else:
-          f = "."
-
-        return a + ("${args}", f, "${file}",)
+      if e != None && r != "":
+        return ("--include", r, "${args}", "${folder}",)
       return None
 
-    def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
+    @property
+    def relative_path(self):
       f = self.filename
-      c = super().finalize_cmd(cmd, context, at_value, auto_append)
-      if f is not "": c[:] = [a for a in c if a != f]
-      return c
+      d = self.get_working_dir(self.settings)
+      if d is not "" and f is not "":
+        return path.relpath(f, d)
+      return f
+
+    def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
+      c = super().finalize_cmd(cmd, context,
+        at_value, auto_append=False)
+
+      if c[1] is "gometalinter":
+        r = self.relative_path
+
+        del c[1]
+        if r is not "":
+          c += ("--include", r)
+      elif c[1] is "golint"
+        f = self.filename
+
+        del c[1]
+        if f is not ""
+          return c+= (f,)
+
 
     def get_working_dir(self, settings):
       f = self.filename
-      if f is not "": f = path.dirname(self.filename)
-      return f
+      s = self.settings
+      if f is "":
+        return super().get_working_dir(s)
+      return path.dirname(f)

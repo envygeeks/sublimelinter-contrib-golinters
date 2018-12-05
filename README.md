@@ -21,6 +21,8 @@ Then in your settings do
     "golint": {
       "executable": "/Users/user/.bin/subl-golint",
       "args": [
+        "gometalinter",
+
         "--fast",
         "--vendor",
         "--disable-all",
@@ -41,3 +43,5 @@ Then in your settings do
   }
 }
 ```
+
+***Notice how "gometalinter" is the first argument.  This should always be the case when replacing the exectuable, (in that it should be `golint`, or `gometalinter` so that we can send `--include` with the path of the file, or append the file. We will also remove that argument so that you don't have to account for it in your wrapper... or executable.****
