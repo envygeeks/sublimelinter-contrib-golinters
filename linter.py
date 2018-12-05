@@ -10,7 +10,6 @@ class GoLint(Linter):
     tempfile_suffix = "-"
     regex = r'^([a-zA-Z\-_]+\.go):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)'
     defaults = { "selector": "source.go" }
-    cmd = "gometalinter ${args} ."
     re_flags = re.MULTILINE
 
     @property
@@ -20,6 +19,12 @@ class GoLint(Linter):
       if d is not "" and f is not "":
         return path.relpath(f, d)
       return f
+
+    def cmd(self):
+      i, r = "", self.relative_path
+      if r is not "": i = "--include='^{}'".format(r)
+      return ("gometalinter", i,
+        "${args}", ".")
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
       return super().finalize_cmd(cmd, context,
