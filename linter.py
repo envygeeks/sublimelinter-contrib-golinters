@@ -22,7 +22,7 @@ class GoLint(Linter):
     def cmd(self):
       i, r = tuple(), self.relative_path
       if r is not "": i = ("--include", "^{}".format(r),)
-      return ("gometalinter",) + i +
+      return ("gometalinter",) + i + \
         ("${args}", ".",)
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
