@@ -14,9 +14,10 @@ class GoLint(Linter):
 
     def cmd(self):
       r = self.relative_path
+      d = self.get_working_dir(self.settings)
       e = self.which("gometalinter")
       if e is not None and r is not "":
-        return (e, "--include", r, "${args}", "${folder}",)
+        return (e, "--include", r, "${args}", d,)
       return None
 
     @property
