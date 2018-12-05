@@ -2,15 +2,21 @@
 # Use of this source code is governed by the MIT license
 # that can be found in the LICENSE file.
 
-from SublimeLinter.lint import util, Linter, WARNING
 from os import path
+from SublimeLinter.lint import util, Linter, WARNING
+import re
 
 class GoLint(Linter):
     tempfile_suffix = "-"
     default_type = WARNING
     defaults = { 'selector': 'source.go' }
-    regex = r'(?:[^:]+):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)'
     error_stream = util.STREAM_STDOUT
+
+    @property
+    def regex(self):
+      re.escape(self.relative_path) + \
+      r":(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?" + \
+      r":\s*(?P<message>.*)"
 
     def cmd(self):
       r = self.relative_path
