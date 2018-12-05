@@ -22,7 +22,7 @@ class GoLint(Linter):
       r = self.relative_path
       e = self.which("gometalinter")
       if e is not None and r is not "":
-        return (e, "--include", "\\A{}".format(r), "${args}", ".")
+        return (e, "${args}", ".")
       return None
 
     @property
