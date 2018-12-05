@@ -16,7 +16,7 @@ class GoLint(Linter):
       r = self.relative_path
       e = self.which("gometalinter")
       if e is not None and r is not "":
-        return ("--include", r, "${args}", "${folder}",)
+        return ("-I", f, "${args}", "${folder}",)
       return None
 
     @property
@@ -30,22 +30,6 @@ class GoLint(Linter):
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
       c = super().finalize_cmd(cmd, context,
         at_value, auto_append=False)
-
-      print("golinters: {}".format(c))
-      if c[1] is "gometalinter":
-        r = self.relative_path
-
-        del c[1]
-        if r is not "":
-          c += ("--include", r)
-      elif c[1] is "golint":
-        f = self.filename
-
-        del c[1]
-        if f is not "":
-          c += (f,)
-      return c
-
 
     def get_working_dir(self, settings):
       f = self.filename
