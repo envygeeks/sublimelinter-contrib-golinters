@@ -16,7 +16,7 @@ class GoLint(Linter):
       r = self.relative_path
       e = self.which("gometalinter")
       if e is not None and r is not "":
-        return ("-I", r, "${args}", "${folder}",)
+        return (e, "--include", r, "${args}", "${folder}",)
       return None
 
     @property
