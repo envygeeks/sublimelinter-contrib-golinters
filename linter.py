@@ -8,11 +8,9 @@ import re
 
 class GoLint(Linter):
     tempfile_suffix = "-"
-    default_type = WARNING
-    error_stream = util.STREAM_STDOUT
-    regex = r"^([a-zA-Z\-_]+\.go):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)"
-    defaults = { 'selector': 'source.go' }
-    cmd = "gometalinter ${args} ${_:.}"
+    regex = r'^([a-zA-Z\-_]+\.go):(?P<line>\d+):(?P<col>\d+)?(:(?:(?P<warning>warning)|(?P<error>error)))?:\s*(?P<message>.*)'
+    defaults = { "selector": "source.go" }
+    cmd = "gometalinter ${args} ."
     multiline = True
 
     @property
@@ -28,8 +26,7 @@ class GoLint(Linter):
         at_value, auto_append=False)
 
     def get_working_dir(self, settings):
-      f = self.filename
-      s = self.settings
+      f, s = self.filename, self.settings
       if f is "":
         return super().get_working_dir(s)
       return path.dirname(f)
