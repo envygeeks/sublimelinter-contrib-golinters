@@ -28,7 +28,7 @@ class GoLint(Linter):
       return f
 
     def finalize_cmd(self, cmd, context, at_value='', auto_append=False):
-      c = super().finalize_cmd(cmd, context,
+      return super().finalize_cmd(cmd, context,
         at_value, auto_append=False)
 
     def get_working_dir(self, settings):
