@@ -11,7 +11,7 @@ class GoLint(Linter):
     default_type = WARNING
     error_stream = util.STREAM_STDOUT
     defaults = { 'selector': 'source.go' }
-    cmd = "gometalinter ${args} ."
+    cmd = "gometalinter ${args} ${_:.}"
 
     @property
     def regex(self):
